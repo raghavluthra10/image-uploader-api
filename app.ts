@@ -1,11 +1,45 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import { router } from "./routes/index";
+import { database } from "./config/database";
+import { User } from "./interfaces/databaseTables";
+
+dotenv.config();
+
 const app = express();
 const port = 8000;
 
-app.get("/", (req: Request, res: Response) => {
-   res.send("Hello World!");
+const checkDbConnection = () => {
+  try {
+    console.log("database =>", "connected Successfully!");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+checkDbConnection();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+app.use(cors());
+
+app.use("/", router);
+
+app.get("/", async (req: Request, res: Response) => {
+  try {
+    const getUser: User[] = await database("user").where({ id: 1 });
+    console.log(getUser);
+  } catch (error: any) {
+    console.log(error);
+  }
+  res.send("Hello World!");
 });
 
 app.listen(port, () => {
-   console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening on port ${port} `);
 });

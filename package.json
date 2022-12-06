@@ -6,7 +6,13 @@
   "scripts": {
     "start": "ts-node app.ts",
     "dev": "ts-node-dev --respawn app.ts",
-    "compile": "tsc"
+    "compile": "tsc",
+    "migrate:file": "knex migrate:make",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback",
+    "migrate:specific": "knex migrate:up",
+    "migrate:down": "knex migrate:down",
+    "seed": "knex seed:run"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +38,10 @@
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^2.3.0",
+    "pg": "^8.8.0"
   }
 }
