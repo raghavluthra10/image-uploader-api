@@ -33,11 +33,11 @@ app.use("/", router);
 app.get("/", async (req: Request, res: Response) => {
   try {
     const getUser: User[] = await database("user").where({ id: 1 });
-    console.log(getUser);
-  } catch (error: any) {
+    console.log(getUser[0]);
+    res.send("Hello World! =>" + JSON.stringify(getUser[0]));
+  } catch (error: unknown) {
     console.log(error);
   }
-  res.send("Hello World!");
 });
 
 app.listen(port, () => {

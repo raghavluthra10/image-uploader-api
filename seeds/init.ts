@@ -23,17 +23,8 @@ export async function seed(knex: Knex): Promise<void> {
     {
       id: 1,
       user_id: 1,
-      pg_image: 1,
       s3_image: null,
       google_cloud_image: null,
-    },
-  ]);
-
-  await knex<PgImage>("pg_image").insert([
-    {
-      id: 1,
-      file: "random",
-      image_resource_id: 1,
     },
   ]);
 }

@@ -18,12 +18,4 @@ interface ImageResources {
   updated_at?: string;
 }
 
-interface PgImage {
-  id: number;
-  file: string;
-  image_resource_id: number;
-  created_at?: string;
-  updated_at?: string;
-}
-
-export { User, ImageResources, PgImage };
+export { User, ImageResources };
