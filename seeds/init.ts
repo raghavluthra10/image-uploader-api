@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { User, ImageResources, PgImage } from "../interfaces/databaseTables";
+import { User, ImageResources } from "../interfaces/databaseTables";
 
 export async function seed(knex: Knex): Promise<void> {
   await knex<User>("user").insert([

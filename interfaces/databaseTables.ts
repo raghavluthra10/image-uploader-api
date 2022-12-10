@@ -1,7 +1,7 @@
 interface User {
   id: number;
   name: string;
-  image_resource: number;
+  image_resource?: number;
   email: string;
   password: string;
   created_at?: string;

@@ -1,0 +1,13 @@
+:root {
+  --primary: rgb(212, 232, 255);
+  --secondary: rgb(16, 39, 84);
+  --tertiary: rgb(34, 175, 241);
+  --text-secondary: rgb(255, 255, 255);
+  --text-primary: rgb(0, 0, 0);
+}
+
+* {
+  background-color: var(--primary);
+}
+
+/* set the font family */

@@ -99,4 +99,15 @@ router.post("/signout", async (req, res) => {
   }
 });
 
+// users
+router.get("/users", async (req, res) => {
+  try {
+    const data = await database("user");
+    res.status(200).json({ success: true, data: JSON.stringify(data) });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+});
+
 export { router };
