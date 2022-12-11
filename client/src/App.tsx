@@ -6,8 +6,11 @@ import Signup from "./pages/signup/Signup";
 import Home from "./pages/home/Home";
 import About from "./pages/about/About";
 import Guest from "./pages/guest/Guest";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import If from "./components/If";
+import PrivateRoute from "./components/PrivateRoute";
+import { render } from "react-dom";
 
 function App() {
   const [userAuth, setUserAuth] = useState<boolean | null>(null);
@@ -34,7 +37,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Guest />} />
         <Route path="/about" element={<About />} />
-        <Route path="/home" element={<Home />} />
+
+        <Route element={<PrivateRoute userAuth={userAuth} />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
+
         <Route path="/login" element={<Login setUserAuth={setUserAuth} />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
