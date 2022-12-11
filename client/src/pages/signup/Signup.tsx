@@ -1,7 +1,23 @@
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import * as React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
+import If from "../../components/If";
+
+import { useNavigate } from "react-router-dom";
+
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+
+import { useMutation } from "react-query";
+import { signupUser } from "../../api/mutations";
 
 // export interface IAppProps {}
 
@@ -39,9 +55,34 @@ export default function App() {
     name: "",
   });
 
-  const signup = (e: React.FormEvent<HTMLFormElement>): void => {
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const signUpMutation = useMutation({
+    mutationFn: signupUser,
+    onMutate: (variable) => {
+      console.log("variable ==>", variable);
+      return variable;
+    },
+    onError: (error, variables, context) => {
+      console.log(`error =>`, error, variables, context);
+    },
+    onSuccess: (data, variables, context) => {
+      if (data) {
+        navigate("/login");
+      }
+      console.log("success => ", data, variables, context);
+    },
+  });
+
+  const signup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("form", signupForm);
+    signUpMutation.mutate({
+      name: signupForm.name,
+      email: signupForm.email,
+      password: signupForm.password,
+    });
     console.log("signup");
   };
   return (
@@ -51,7 +92,6 @@ export default function App() {
         boxShadow="2xl"
         p={10}
         borderRadius="xl"
-        // h="400px"
         flexDirection="column"
         justifyContent="space-between"
       >
@@ -85,16 +125,35 @@ export default function App() {
           </InputForm>
           <InputForm>
             <label htmlFor="password">Password</label>
-            <Input
-              value={signupForm.password}
-              onChange={(e) =>
-                setSignupForm({ ...signupForm, password: e.target.value })
-              }
-              type="password"
-              mt="8px"
-              placeholder="*******"
-              name="password"
-            />
+            <InputGroup>
+              <Input
+                value={signupForm.password}
+                onChange={(e) =>
+                  setSignupForm({ ...signupForm, password: e.target.value })
+                }
+                type={showPassword ? "text" : "password"}
+                mt="8px"
+                placeholder="*******"
+                name="password"
+              />
+              <InputRightElement
+                w="20px"
+                h="20px"
+                mt="18px"
+                mr="10px"
+                onClick={(): void => setShowPassword(!showPassword)}
+                children={
+                  <React.Fragment>
+                    <If condition={showPassword}>
+                      <AiOutlineEye />
+                    </If>
+                    <If condition={!showPassword}>
+                      <AiOutlineEyeInvisible />
+                    </If>
+                  </React.Fragment>
+                }
+              />
+            </InputGroup>
           </InputForm>
           <Button
             type="submit"

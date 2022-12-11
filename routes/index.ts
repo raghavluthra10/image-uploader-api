@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
 import { database } from "../config/database";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 import { User } from "../interfaces/databaseTables";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -43,12 +43,9 @@ router.post("/login", async (req: Request, res: Response) => {
 
     console.log("token =>", token);
     // { httpOnly: true, secure: true }
-    res
+    return res
       .status(200)
-      .cookie("auth", token)
-      .send({ message: "User logged in successfully!", accessToken: token });
-
-    return res.status(200).send(req.body);
+      .json({ message: "User logged in successfully!", accessToken: token });
   } catch (error) {
     console.error(error);
     return res.status(500).send("Internal server error!");

@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { router } from "./routes/index";
 import { database } from "./config/database";
 import { User } from "./interfaces/databaseTables";
+import addHeaders from "./middleware/cors";
 
 dotenv.config();
 
@@ -26,7 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(cors());
+// app.use(cors());
+// const corsO
+
+app.use(addHeaders);
 
 app.use("/", router);
 
