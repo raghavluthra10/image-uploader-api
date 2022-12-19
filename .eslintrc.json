@@ -17,6 +17,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
     "semi": ["warn", "always"],
     "quotes": ["warn", "double"],
     "no-multiple-empty-lines": ["warn", { "max": 2, "maxEOF": 0 }]
