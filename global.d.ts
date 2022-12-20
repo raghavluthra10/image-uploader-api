@@ -11,5 +11,13 @@ namespace NodeJS {
     aws_secret_access_key: string;
     aws_region: string;
     aws_bucket_name: string;
+
+    jwtSecret: any;
+  }
+}
+declare namespace Express {
+  export interface Request {
+    userId?: number;
+    userEmail?: string;
   }
 }
