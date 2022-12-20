@@ -7,19 +7,8 @@ import { router } from "./routes/index";
 import { database } from "./config/database";
 import { User } from "./interfaces/databaseTables";
 import addHeaders from "./middleware/cors";
-import s3 from "./s3service";
 
 dotenv.config({ path: "./env" });
-
-const objectParams: { Bucket: string; Key: string } = {
-  Bucket: process.env.aws_bucket_name!,
-  Key: "r.png",
-};
-
-s3.getObject(objectParams, function (err, data) {
-  if (err) return console.log("errrr ->", err);
-  console.log("datatatta =>", data);
-});
 
 const app = express();
 const port = 8000;
