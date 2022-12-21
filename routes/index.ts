@@ -7,7 +7,12 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { login, signout, signup } from "../controllers/auth";
 import { getAllUsers } from "../controllers/user";
-import { addImageToFirebase, getAllImages } from "../controllers/storage";
+import {
+  addImageToFirebase,
+  getAllImages,
+  getSingleUsersImages,
+  deleteImageFromFirebase,
+} from "../controllers/storage";
 import path from "path";
 
 import multer from "multer";
@@ -43,6 +48,8 @@ router.post(
   upload.single("image"),
   addImageToFirebase,
 );
-router.get("/image", authenticateUser, getAllImages);
+router.get("/images", authenticateUser, getAllImages);
+router.delete("/image", authenticateUser, deleteImageFromFirebase);
+router.get("/image", authenticateUser, getSingleUsersImages);
 
 export { router };

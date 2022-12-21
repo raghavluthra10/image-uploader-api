@@ -13,6 +13,7 @@ import {
   uploadBytes,
   getDownloadURL,
   FirebaseStorage,
+  deleteObject,
 } from "firebase/storage";
 
 function encodeImageFileAsURL(element: any) {
@@ -79,12 +80,13 @@ export const addImageToFirebase = async (
   }
 };
 
-const deleteImageFromFirebase = async (
+export const deleteImageFromFirebase = async (
   req: IGetUserAuthInfoRequest,
   res: Response,
 ) => {
   try {
     console.log("delete");
+    // const deleteRef = ref(storage, )
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error!" });
@@ -102,12 +104,37 @@ const deleteImageFromFirebase = async (
 //   size: 6991
 // }
 
+export const getSingleUsersImages = async (
+  req: IGetUserAuthInfoRequest,
+  res: Response,
+) => {
+  try {
+    const userId = req.userId;
+    const data = await database("image_resources").where({ user_id: userId });
+
+    res.status(200).json({
+      success: true,
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+};
+
 export const getAllImages = async (
   req: IGetUserAuthInfoRequest,
   res: Response,
 ) => {
   try {
-    console.log("user info", req.userEmail, req.userId);
+    const images = await database("image_resources");
+    console.log("imageeee =>", images);
+
+    return res.status(200).json({
+      success: true,
+      data: images,
+    });
+    // console.log("user info", req.userEmail, req.userId);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error!" });

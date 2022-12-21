@@ -19,8 +19,6 @@ export const authenticateUser = async (
   try {
     const authToken = JSON.stringify(req.headers.auth);
 
-    console.log("auth token =>", authToken);
-
     if (!authToken) {
       return res.status(401).json({
         success: false,
