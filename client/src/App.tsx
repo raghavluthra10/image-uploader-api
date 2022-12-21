@@ -17,12 +17,12 @@ function App() {
 
   const checkIfUserIsAuthenticated = () => {
     const regexJwt = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
-    const cookie = Cookies.get("auth");
+
+    // const cookie = Cookies.get("auth");
+    const cookie = window.localStorage.getItem("Authenticate");
     if (cookie && regexJwt.test(cookie)) {
-      // set userAuth as true
       setUserAuth(true);
     } else {
-      // set userAuth as false
       setUserAuth(false);
     }
   };
@@ -38,7 +38,7 @@ function App() {
         <Route path="/" element={<Guest />} />
         <Route path="/about" element={<About />} />
 
-        <Route element={<PrivateRoute userAuth={userAuth} />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/home" element={<Home />} />
         </Route>
 

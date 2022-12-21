@@ -24,6 +24,7 @@ export const loginUser = async (loginInfo: LoginForm) => {
     console.log("response ====>", message, accessToken);
 
     Cookies.set("auth", accessToken);
+    window.localStorage.setItem("Authenticate", accessToken);
     return response;
   } catch (error: any) {
     const message: string = error.message;

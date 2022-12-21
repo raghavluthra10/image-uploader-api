@@ -1,16 +1,30 @@
 import * as React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
-export interface IAppProps {
-  userAuth: boolean | null;
-}
+// export interface IAppProps {
+//   // userAuth: boolean | null;
+// }
 
-export default function App(userAuth: IAppProps): any {
-  console.log("private route = == = =>", userAuth);
-  // return userAuth.userAuth ? <Outlet /> : <Navigate to="/login" />;
-  if (userAuth.userAuth === false || userAuth.userAuth === null) {
-    return <Navigate to="/login" />;
-  }
+export default function App(): any {
+  const navigator = useNavigate();
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("Authenticate");
+    const regexJwt = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
+
+    const parsedToken = JSON.parse(token as string);
+
+    if (!parsedToken) {
+      console.log("token is falsy =>", typeof parsedToken);
+      navigator("/login");
+      return;
+    }
+
+    if (!regexJwt.test(parsedToken)) {
+      navigator("/login");
+      return;
+    }
+  }, []);
 
   return <Outlet />;
 }

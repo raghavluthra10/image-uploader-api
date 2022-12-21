@@ -6,6 +6,8 @@ import { getContent } from "../../api/queries";
 import { User } from "../../interfaces/user";
 
 import If from "../../components/If";
+import axios from "axios";
+import axiosConfig from "../../axios.config";
 
 export interface IAppProps {}
 
@@ -22,6 +24,17 @@ export default function App(props: IAppProps) {
   const getData = () => {
     refetch();
   };
+  const checkAuth = async () => {
+    const data = await axios.get(`${axiosConfig}/image`, {
+      headers: { auth: localStorage.getItem("Authenticate") },
+    });
+
+    try {
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <Button onClick={getData}>Get content</Button>
@@ -34,6 +47,7 @@ export default function App(props: IAppProps) {
           ))}
         </React.Fragment>
       </If>
+      <Button onClick={checkAuth}>Check auth with token</Button>
     </div>
   );
 }

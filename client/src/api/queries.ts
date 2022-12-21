@@ -4,7 +4,9 @@ import axiosConfig from "../axios.config";
 import Cookies from "js-cookie";
 
 export const getContent = async () => {
-  const data = await axios.get(`${axiosConfig}/users`);
+  const data = await axios.get(`${axiosConfig}/users`, {
+    headers: { auth: localStorage.getItem("Authenticate") },
+  });
   const response = data.data.data;
   console.log("response => ", JSON.parse(response));
 
