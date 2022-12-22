@@ -1,11 +1,161 @@
 import * as React from "react";
-
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { getContent } from "../../api/queries";
+import If from "../../components/If";
+import {
+  Button as ChakraButton,
+  ButtonGroup,
+  Flex,
+  IconButton,
+  Input,
+} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { ImCancelCircle } from "react-icons/im";
+import { IoMdCloudUpload } from "react-icons/io";
+import { Image } from "@chakra-ui/react";
 export interface IAppProps {}
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+`;
+
+const UserInfo = styled.div`
+  margin-top: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 116px;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 2px 2px 4px #333;
+`;
+
+const PhotosSection = styled.section`
+  margin-top: 64px;
+  padding: 32px;
+  /* border: 1px solid black; */
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 24px;
+  /* grid-template-rows: repeat(2, 1fr); */
+`;
+
 export default function App(props: IAppProps) {
+  const [file, setFile] = React.useState<any>(null);
+  const [showUploadButton, setShowUploadButton] =
+    React.useState<boolean>(false);
+  // const { isError, isLoading, data, isSuccess, refetch } = useQuery(
+  //   "users",
+  //   getContent,
+  // );
+  // console.log("home page", isLoading, isSuccess, isError, data);
+
+  const uploadPhoto = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(file);
+    console.log("upload photo");
+    // call a mutation from react query
+  };
+
+  const selectFile = (e: any) => {
+    console.log(e.target.files[0]);
+    setFile(e.target.files[0]);
+  };
+
+  const hiddenButtonRef = React.useRef<HTMLInputElement>(null);
+
+  const implementUseRef = () => {
+    if (hiddenButtonRef.current != null) {
+      hiddenButtonRef.current.click();
+    }
+  };
+
+  const fetchFile = (e: any) => {
+    console.log("fetch file", e.target.files[0]);
+
+    setFile(e.target.files[0]);
+    setShowUploadButton(true);
+  };
+
+  const cancelFormSubmission = () => {
+    setFile(null);
+    setShowUploadButton(false);
+  };
+
   return (
-    <div>
-      <h1>Home page</h1>
-    </div>
+    <Container>
+      <UserInfo>
+        <Flex p="16px" flexDirection="column">
+          <div>Name: raghav</div>
+          <div>Photos: 3</div>
+        </Flex>
+        <Flex p="16px">
+          <form onSubmit={uploadPhoto} method="POST">
+            <div style={{ height: "0px", width: "0px" }}>
+              <input
+                type="file"
+                style={{ display: "none" }}
+                onChange={selectFile}
+                name="upload-file"
+              />
+            </div>
+            <If condition={showUploadButton}>
+              <ButtonGroup spacing={6}>
+                <ChakraButton type="submit">Upload</ChakraButton>
+
+                <IconButton aria-label="" onClick={cancelFormSubmission}>
+                  <ImCancelCircle />
+                </IconButton>
+              </ButtonGroup>
+            </If>
+            <input
+              ref={hiddenButtonRef}
+              type="file"
+              style={{ display: "none" }}
+              onChange={fetchFile}
+            />
+
+            <If condition={!showUploadButton}>
+              <IconButton aria-label={""} onClick={implementUseRef}>
+                <IoMdCloudUpload
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    alignSelf: "center",
+                    cursor: "pointer",
+                  }}
+                />
+              </IconButton>
+            </If>
+          </form>
+        </Flex>
+      </UserInfo>
+
+      <PhotosSection>
+        <Image
+          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+          alt="dnuerdnew"
+        />
+
+        <Image
+          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+          alt="dnuerdnew"
+        />
+
+        <Image
+          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+          alt="dnuerdnew"
+        />
+
+        <Image
+          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+          alt="dnuerdnew"
+        />
+      </PhotosSection>
+    </Container>
   );
 }
