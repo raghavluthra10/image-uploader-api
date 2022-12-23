@@ -12,18 +12,18 @@ export default function App(): any {
     const token = window.localStorage.getItem("Authenticate");
     const regexJwt = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
 
-    const parsedToken = JSON.parse(token as string);
+    // const parsedToken = JSON.parse(token as string);
 
-    if (!parsedToken) {
-      console.log("token is falsy =>", typeof parsedToken);
+    if (!token) {
+      console.log("token is falsy =>", typeof token);
       navigator("/login");
       return;
     }
 
-    if (!regexJwt.test(parsedToken)) {
-      navigator("/login");
-      return;
-    }
+    // if (!regexJwt.test(parsedToken)) {
+    //   navigator("/login");
+    //   return;
+    // }
   }, []);
 
   return <Outlet />;

@@ -56,3 +56,16 @@ export const signupUser = async (signUpInfo: SignUpForm) => {
     window.alert(error.message);
   }
 };
+
+export const uploadImage = async (formData: any) => {
+  console.log("upload image mutation", formData.get("image"));
+  try {
+    const response = await axios.post(`${axiosConfig}/image`, formData, {
+      headers: { auth: localStorage.getItem("Authenticate") },
+      withCredentials: true,
+    });
+    console.log("response =>", response);
+  } catch (error) {
+    console.log(error);
+  }
+};

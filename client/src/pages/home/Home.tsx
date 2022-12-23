@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import styled from "styled-components";
 import { getContent } from "../../api/queries";
 import If from "../../components/If";
@@ -14,6 +14,9 @@ import { Box } from "@chakra-ui/react";
 import { ImCancelCircle } from "react-icons/im";
 import { IoMdCloudUpload } from "react-icons/io";
 import { Image } from "@chakra-ui/react";
+import axios from "axios";
+import axiosConfig from "../../axios.config";
+import { uploadImage } from "../../api/mutations";
 export interface IAppProps {}
 
 const Container = styled.div`
@@ -48,22 +51,27 @@ export default function App(props: IAppProps) {
   const [file, setFile] = React.useState<any>(null);
   const [showUploadButton, setShowUploadButton] =
     React.useState<boolean>(false);
-  // const { isError, isLoading, data, isSuccess, refetch } = useQuery(
-  //   "users",
-  //   getContent,
-  // );
-  // console.log("home page", isLoading, isSuccess, isError, data);
 
-  const uploadPhoto = (e: React.FormEvent<HTMLFormElement>) => {
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImage,
+    onMutate: (variable) => {
+      console.log("variable upload image mutation ===>", variable);
+      return variable;
+    },
+    onError: (error, variables, context) => {
+      console.log(`error =>`, error, variables, context);
+    },
+    onSuccess: (data, variables, context) => {
+      setShowUploadButton(false);
+      console.log("success => ", data, variables, context);
+    },
+  });
+
+  const uploadPhoto = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(file);
-    console.log("upload photo");
-    // call a mutation from react query
-  };
-
-  const selectFile = (e: any) => {
-    console.log(e.target.files[0]);
-    setFile(e.target.files[0]);
+    const formData = new FormData();
+    formData.append("image", file);
+    uploadImageMutation.mutate(formData);
   };
 
   const hiddenButtonRef = React.useRef<HTMLInputElement>(null);
@@ -94,15 +102,11 @@ export default function App(props: IAppProps) {
           <div>Photos: 3</div>
         </Flex>
         <Flex p="16px">
-          <form onSubmit={uploadPhoto} method="POST">
-            <div style={{ height: "0px", width: "0px" }}>
-              <input
-                type="file"
-                style={{ display: "none" }}
-                onChange={selectFile}
-                name="upload-file"
-              />
-            </div>
+          <form
+            onSubmit={uploadPhoto}
+            method="post"
+            encType="multipart/form-data"
+          >
             <If condition={showUploadButton}>
               <ButtonGroup spacing={6}>
                 <ChakraButton type="submit">Upload</ChakraButton>
@@ -115,6 +119,7 @@ export default function App(props: IAppProps) {
             <input
               ref={hiddenButtonRef}
               type="file"
+              name="image"
               style={{ display: "none" }}
               onChange={fetchFile}
             />
