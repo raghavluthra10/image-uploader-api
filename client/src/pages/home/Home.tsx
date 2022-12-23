@@ -17,6 +17,7 @@ import { Image } from "@chakra-ui/react";
 import axios from "axios";
 import axiosConfig from "../../axios.config";
 import { uploadImage } from "../../api/mutations";
+import { Spinner } from "@chakra-ui/react";
 export interface IAppProps {}
 
 const Container = styled.div`
@@ -95,72 +96,88 @@ export default function App(props: IAppProps) {
   };
 
   return (
-    <Container>
-      <UserInfo>
-        <Flex p="16px" flexDirection="column">
-          <div>Name: raghav</div>
-          <div>Photos: 3</div>
+    <React.Fragment>
+      <If condition={uploadImageMutation.isLoading}>
+        <Flex alignItems="center" direction="column">
+          <Spinner
+            mt="124px"
+            thickness="4px"
+            speed="0.8s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
         </Flex>
-        <Flex p="16px">
-          <form
-            onSubmit={uploadPhoto}
-            method="post"
-            encType="multipart/form-data"
-          >
-            <If condition={showUploadButton}>
-              <ButtonGroup spacing={6}>
-                <ChakraButton type="submit">Upload</ChakraButton>
+      </If>
+      <If condition={!uploadImageMutation.isLoading}>
+        <Container>
+          <UserInfo>
+            <Flex p="16px" flexDirection="column">
+              <div>Name: raghav</div>
+              <div>Photos: 3</div>
+            </Flex>
+            <Flex p="16px">
+              <form
+                onSubmit={uploadPhoto}
+                method="post"
+                encType="multipart/form-data"
+              >
+                <If condition={showUploadButton}>
+                  <ButtonGroup spacing={6}>
+                    <ChakraButton type="submit">Upload</ChakraButton>
 
-                <IconButton aria-label="" onClick={cancelFormSubmission}>
-                  <ImCancelCircle />
-                </IconButton>
-              </ButtonGroup>
-            </If>
-            <input
-              ref={hiddenButtonRef}
-              type="file"
-              name="image"
-              style={{ display: "none" }}
-              onChange={fetchFile}
+                    <IconButton aria-label="" onClick={cancelFormSubmission}>
+                      <ImCancelCircle />
+                    </IconButton>
+                  </ButtonGroup>
+                </If>
+                <input
+                  ref={hiddenButtonRef}
+                  type="file"
+                  name="image"
+                  style={{ display: "none" }}
+                  onChange={fetchFile}
+                />
+
+                <If condition={!showUploadButton}>
+                  <IconButton aria-label={""} onClick={implementUseRef}>
+                    <IoMdCloudUpload
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        alignSelf: "center",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </IconButton>
+                </If>
+              </form>
+            </Flex>
+          </UserInfo>
+
+          <PhotosSection>
+            <Image
+              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+              alt="dnuerdnew"
             />
 
-            <If condition={!showUploadButton}>
-              <IconButton aria-label={""} onClick={implementUseRef}>
-                <IoMdCloudUpload
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    alignSelf: "center",
-                    cursor: "pointer",
-                  }}
-                />
-              </IconButton>
-            </If>
-          </form>
-        </Flex>
-      </UserInfo>
+            <Image
+              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+              alt="dnuerdnew"
+            />
 
-      <PhotosSection>
-        <Image
-          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-          alt="dnuerdnew"
-        />
+            <Image
+              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+              alt="dnuerdnew"
+            />
 
-        <Image
-          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-          alt="dnuerdnew"
-        />
-
-        <Image
-          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-          alt="dnuerdnew"
-        />
-
-        <Image
-          src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-          alt="dnuerdnew"
-        />
-      </PhotosSection>
-    </Container>
+            <Image
+              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+              alt="dnuerdnew"
+            />
+          </PhotosSection>
+        </Container>
+      </If>
+    </React.Fragment>
   );
 }
