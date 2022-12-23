@@ -50,6 +50,6 @@ router.post(
 );
 router.get("/images", authenticateUser, getAllImages);
 router.delete("/image", authenticateUser, deleteImageFromFirebase);
-router.get("/image", authenticateUser, getSingleUsersImages);
+router.get("/usersImages", authenticateUser, getSingleUsersImages);
 
 export { router };

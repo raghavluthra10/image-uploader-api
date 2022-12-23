@@ -1,23 +1,20 @@
 import * as React from "react";
 import { useMutation, useQuery } from "react-query";
 import styled from "styled-components";
-import { getContent } from "../../api/queries";
 import If from "../../components/If";
 import {
   Button as ChakraButton,
   ButtonGroup,
   Flex,
   IconButton,
-  Input,
 } from "@chakra-ui/react";
-import { Box } from "@chakra-ui/react";
+import ImageBox from "../../components/ImageBox";
 import { ImCancelCircle } from "react-icons/im";
 import { IoMdCloudUpload } from "react-icons/io";
 import { Image } from "@chakra-ui/react";
-import axios from "axios";
-import axiosConfig from "../../axios.config";
 import { uploadImage } from "../../api/mutations";
 import { Spinner } from "@chakra-ui/react";
+import { getAllImagesOfAUser } from "../../api/queries";
 export interface IAppProps {}
 
 const Container = styled.div`
@@ -37,15 +34,13 @@ const UserInfo = styled.div`
   box-shadow: 2px 2px 4px #333;
 `;
 
-const PhotosSection = styled.section`
+const PhotosDisplaySection = styled.section`
   margin-top: 64px;
   padding: 32px;
-  /* border: 1px solid black; */
   display: grid;
   place-items: center;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 24px;
-  /* grid-template-rows: repeat(2, 1fr); */
 `;
 
 export default function App(props: IAppProps) {
@@ -53,21 +48,30 @@ export default function App(props: IAppProps) {
   const [showUploadButton, setShowUploadButton] =
     React.useState<boolean>(false);
 
+  const fetchAllImagesOfMe = useQuery({
+    queryKey: ["getMyImages"],
+    queryFn: getAllImagesOfAUser,
+    refetchOnWindowFocus: false,
+  });
+
+  // describe mutation upload image and its side effect
   const uploadImageMutation = useMutation({
     mutationFn: uploadImage,
     onMutate: (variable) => {
-      console.log("variable upload image mutation ===>", variable);
       return variable;
     },
     onError: (error, variables, context) => {
-      console.log(`error =>`, error, variables, context);
+      console.log("error =>", error, variables, context);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: async (data, variables, context) => {
       setShowUploadButton(false);
+      // re-fetch updated data
+      fetchAllImagesOfMe.refetch();
       console.log("success => ", data, variables, context);
     },
   });
 
+  // call the upload image mutation on click of upload button
   const uploadPhoto = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
@@ -75,8 +79,10 @@ export default function App(props: IAppProps) {
     uploadImageMutation.mutate(formData);
   };
 
+  // ref for hidden input tag for file upload
   const hiddenButtonRef = React.useRef<HTMLInputElement>(null);
 
+  // triggering click on behalf of hidden input tag
   const implementUseRef = () => {
     if (hiddenButtonRef.current != null) {
       hiddenButtonRef.current.click();
@@ -84,8 +90,6 @@ export default function App(props: IAppProps) {
   };
 
   const fetchFile = (e: any) => {
-    console.log("fetch file", e.target.files[0]);
-
     setFile(e.target.files[0]);
     setShowUploadButton(true);
   };
@@ -155,27 +159,23 @@ export default function App(props: IAppProps) {
             </Flex>
           </UserInfo>
 
-          <PhotosSection>
-            <Image
-              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-              alt="dnuerdnew"
-            />
-
-            <Image
-              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-              alt="dnuerdnew"
-            />
-
-            <Image
-              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-              alt="dnuerdnew"
-            />
-
-            <Image
-              src="https://images.unsplash.com/photo-1671398297702-4725d9a2f8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
-              alt="dnuerdnew"
-            />
-          </PhotosSection>
+          <PhotosDisplaySection>
+            <If condition={fetchAllImagesOfMe.isSuccess}>
+              <If condition={fetchAllImagesOfMe.data?.length > 0}>
+                {fetchAllImagesOfMe?.data?.map((image: any) => (
+                  <ImageBox
+                    key={image.id}
+                    src={image.firebase_public_url}
+                    alt="image"
+                    loading={fetchAllImagesOfMe.isLoading}
+                  />
+                ))}
+              </If>
+              <If condition={fetchAllImagesOfMe.data?.length === 0}>
+                <h1>No images</h1>
+              </If>
+            </If>
+          </PhotosDisplaySection>
         </Container>
       </If>
     </React.Fragment>

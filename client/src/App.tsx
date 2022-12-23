@@ -7,10 +7,7 @@ import Home from "./pages/home/Home";
 import About from "./pages/about/About";
 import Guest from "./pages/guest/Guest";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import If from "./components/If";
 import PrivateRoute from "./components/PrivateRoute";
-import { render } from "react-dom";
 
 function App() {
   const [userAuth, setUserAuth] = useState<boolean | null>(null);
