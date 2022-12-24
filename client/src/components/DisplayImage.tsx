@@ -3,6 +3,8 @@ import { Image, Flex } from "@chakra-ui/react";
 import { AiFillDelete } from "react-icons/ai";
 import { RxCrossCircled } from "react-icons/rx";
 import styled from "styled-components";
+import axios from "axios";
+import axiosConfig from "../axios.config";
 
 export interface IAppProps {
   src?: string;
@@ -24,8 +26,17 @@ const Container = styled.div`
 
 export default function App({ src, alt, setOpenImage }: IAppProps) {
   console.log("open image =>", src, alt);
-  const deleteImage = () => {
-    console.log("delete image");
+  const deleteImage = async () => {
+    try {
+      const response = await axios.delete(`${axiosConfig}/image`, {
+        params: { firebase_public_url: src },
+        headers: { auth: localStorage.getItem("Authenticate") },
+        withCredentials: true,
+      });
+      console.log("delete image", response);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Container>

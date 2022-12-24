@@ -26,7 +26,8 @@ export const addImageToFirebase = async (
   res: Response,
 ) => {
   try {
-    console.log("req.file ===>", req.file);
+    const imageFile = req.file;
+
     const imagePath = req.file?.path;
     const filename = req.file?.originalname;
 
@@ -40,30 +41,30 @@ export const addImageToFirebase = async (
     // publically accessible url
     let publicallyAccessibleUrl = "";
 
-    try {
-      const snapshot = await uploadBytes(imageRef, bufferImage, metadata);
-      console.log(snapshot);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    // try {
+    await uploadBytes(imageRef, bufferImage, metadata);
+    // } catch (error) {
+    //   console.log(error);
+    //   return;
+    // }
 
     const pathRefernceForImageDownload = ref(storage, filename);
 
-    try {
-      const downloadUrl = await getDownloadURL(pathRefernceForImageDownload);
-      publicallyAccessibleUrl = downloadUrl;
-      console.log("publically accessible url ===>", publicallyAccessibleUrl);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    // try {
+    const downloadUrl = await getDownloadURL(pathRefernceForImageDownload);
+    publicallyAccessibleUrl = downloadUrl;
+    console.log("publically accessible url ===>", publicallyAccessibleUrl);
+    // } catch (error) {
+    //   console.log(error);
+    //   return;
+    // }
 
     const userId = req.userId;
 
     await database("image_resources").insert({
       firebase_public_url: publicallyAccessibleUrl,
       user_id: userId,
+      file_reference: filename,
     });
 
     // remove file from uploads folder
@@ -73,6 +74,7 @@ export const addImageToFirebase = async (
 
     return res.status(200).json({
       success: true,
+      data: imageFile,
     });
   } catch (error) {
     console.error(error);
@@ -85,8 +87,35 @@ export const deleteImageFromFirebase = async (
   res: Response,
 ) => {
   try {
-    console.log("delete");
-    // const deleteRef = ref(storage, )
+    const userId = req.userId;
+    const queries = req.query.firebase_public_url;
+
+    const getFileReferenceFromDb = await database("image_resources").where({
+      user_id: userId,
+      firebase_public_url: queries,
+    });
+
+    const fileReference = getFileReferenceFromDb[0].file_reference;
+
+    console.log("get file =>", getFileReferenceFromDb, fileReference);
+
+    const deleteRef = ref(storage, fileReference);
+
+    try {
+      const response = await deleteObject(deleteRef);
+      console.log(response);
+    } catch (error) {
+      return console.log(error);
+    }
+
+    // delete record from db
+    await database("image_resources")
+      .where({ user_id: userId, firebase_public_url: queries })
+      .del();
+
+    return res.status(200).json({
+      success: true,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error!" });
@@ -128,7 +157,6 @@ export const getAllImages = async (
 ) => {
   try {
     const images = await database("image_resources");
-    console.log("imageeee =>", images);
 
     return res.status(200).json({
       success: true,
