@@ -34,7 +34,7 @@ export default function App({ setUserAuth, isLoggedIn }: IAppProps) {
 
   const logoutUser = () => {
     Cookies.set("auth", "null");
-    window.localStorage.setItem("Authenticate", "null");
+    window.localStorage.removeItem("Authenticate");
     navigate("/");
     // set userAuth as false
     setUserAuth(false);
