@@ -18,3 +18,11 @@ export interface SignUpForm {
   password: string;
   name: string;
 }
+
+export interface ImageInfo {
+  created_at: string;
+  updated_at: string;
+  user_id: number;
+  id: number;
+  firebase_public_url: string;
+}

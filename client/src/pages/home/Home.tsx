@@ -15,12 +15,15 @@ import { Image } from "@chakra-ui/react";
 import { uploadImage } from "../../api/mutations";
 import { Spinner } from "@chakra-ui/react";
 import { getAllImagesOfAUser } from "../../api/queries";
+import { ImageInfo } from "../../interfaces/user";
 export interface IAppProps {}
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px 40px;
+  /* min-width: 50%; */
+  align-items: center;
 `;
 
 const UserInfo = styled.div`
@@ -31,6 +34,8 @@ const UserInfo = styled.div`
   height: 116px;
   border-radius: 8px;
   padding: 16px;
+  width: 80%;
+  /* align-items: center; */
   box-shadow: 2px 2px 4px #333;
 `;
 
@@ -40,7 +45,10 @@ const PhotosDisplaySection = styled.section`
   display: grid;
   place-items: center;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 24px;
+  max-width: 80%;
+  /* min-width: 40%; */
+  align-items: center;
+  grid-gap: 48px;
 `;
 
 export default function App(props: IAppProps) {
@@ -160,20 +168,34 @@ export default function App(props: IAppProps) {
           </UserInfo>
 
           <PhotosDisplaySection>
-            <If condition={fetchAllImagesOfMe.isSuccess}>
+            <If condition={!fetchAllImagesOfMe.isLoading}>
               <If condition={fetchAllImagesOfMe.data?.length > 0}>
-                {fetchAllImagesOfMe?.data?.map((image: any) => (
+                {fetchAllImagesOfMe?.data?.map((image: ImageInfo) => (
                   <ImageBox
                     key={image.id}
                     src={image.firebase_public_url}
                     alt="image"
-                    loading={fetchAllImagesOfMe.isLoading}
+                    data={image}
                   />
                 ))}
               </If>
               <If condition={fetchAllImagesOfMe.data?.length === 0}>
                 <h1>No images</h1>
               </If>
+            </If>
+            <If condition={fetchAllImagesOfMe.isLoading}>
+              {fetchAllImagesOfMe?.data?.map((image: any) => (
+                <Flex alignItems="center" direction="column" key={image.id}>
+                  <Spinner
+                    mt="124px"
+                    thickness="4px"
+                    speed="0.8s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                </Flex>
+              ))}
             </If>
           </PhotosDisplaySection>
         </Container>

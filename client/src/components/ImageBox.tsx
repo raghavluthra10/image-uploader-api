@@ -4,11 +4,14 @@ import styled from "styled-components";
 import If from "../components/If";
 import { Button as ChakraButton, Flex } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
+import DisplayImage from "./DisplayImage";
+// import { Link, useNavigate } from "react-router-dom";
+import { ImageInfo } from "../interfaces/user";
 
 export interface IAppProps {
   src: string;
   alt: string;
-  loading: boolean;
+  data: ImageInfo;
   // close: () =>
 }
 
@@ -16,32 +19,33 @@ const Container = styled.div`
   display: flex;
   cursor: pointer;
   width: 100%;
-  /* height: 100; */
-  padding: 20px;
-  border: 1px solid black;
-  border-radius: 8px;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    background-color: black;
+  }
 `;
 
-export default function App({ src, alt, loading }: IAppProps) {
-  console.log("isl;oading =>", loading);
+export default function App({ src, alt, data }: IAppProps) {
+  const [openImage, setOpenImage] = React.useState<boolean>(false);
+  // const navigate = useNavigate();
+  const viewImage = () => {
+    setOpenImage(true);
+    window.scrollTo(0, 0);
+    // scroll to top
+    console.log("image", data);
+  };
   return (
     <React.Fragment>
-      <If condition={loading}>
-        <Flex alignItems="center" direction="column">
-          <Spinner
-            mt="124px"
-            thickness="4px"
-            speed="0.8s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-        </Flex>
-      </If>
-      <If condition={!loading}>
-        <Container>
-          <Image src={src} alt={alt} />
-        </Container>
+      <Container onClick={viewImage}>
+        <Image src={src} alt={alt} objectFit="contain" />
+      </Container>
+      <If condition={openImage}>
+        <DisplayImage src={src} alt={alt} setOpenImage={setOpenImage} />
       </If>
     </React.Fragment>
   );
