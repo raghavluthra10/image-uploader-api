@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
@@ -8,6 +7,7 @@ import About from "./pages/about/About";
 import Guest from "./pages/guest/Guest";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./pages/notFound/NotFound";
 
 function App() {
   const [userAuth, setUserAuth] = useState<boolean | null>(null);
@@ -41,6 +41,7 @@ function App() {
 
         <Route path="/login" element={<Login setUserAuth={setUserAuth} />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Fragment>
   );
