@@ -1,7 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import * as React from "react";
 import { BsFillCloudRainHeavyFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import If from "../../components/If";
 
 // export interface IAppProps {}
 
@@ -48,6 +50,24 @@ const Welcome = styled.h1`
 `;
 
 export default function App() {
+  const [userAuth, setUserAuth] = React.useState<boolean | null>(null);
+
+  const checkIfUserIsAuthenticated = () => {
+    const regexJwt = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
+
+    // const cookie = Cookies.get("auth");
+    const cookie = window.localStorage.getItem("Authenticate");
+    if (cookie && regexJwt.test(cookie)) {
+      setUserAuth(true);
+    } else {
+      setUserAuth(false);
+    }
+  };
+
+  React.useEffect(() => {
+    checkIfUserIsAuthenticated();
+  }, []);
+
   return (
     <Container>
       <SectionOne>
@@ -56,7 +76,17 @@ export default function App() {
             Welcome to your only solution for storing images on cloud.
           </Welcome>
 
-          <CTA>Login to get started.</CTA>
+          <If condition={!userAuth}>
+            <CTA>
+              <Link to="/login">
+                <Button size="2lg" padding="16px 28px">
+                  Login
+                </Button>
+              </Link>
+              {"  "}
+              to get started.
+            </CTA>
+          </If>
         </LeftSection>
 
         <Cloud>
