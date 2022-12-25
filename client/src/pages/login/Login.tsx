@@ -60,7 +60,6 @@ export default function App({ setUserAuth }: IAppProps) {
   const loginUserMutation = useMutation({
     mutationFn: loginUser,
     onMutate: (variable) => {
-      console.log("variable ==>", variable);
       return variable;
     },
     onError: (error, variables, context) => {
@@ -72,7 +71,6 @@ export default function App({ setUserAuth }: IAppProps) {
         // set userAuth as true
         setUserAuth(true);
       }
-      console.log("success => ", data, variables, context);
     },
   });
 

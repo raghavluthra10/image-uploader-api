@@ -25,11 +25,8 @@ export const getAllImagesOfAUser = async () => {
       headers: { auth: localStorage.getItem("Authenticate") },
       withCredentials: true,
     });
-    console.log("resources ====>", response.data.data);
     return response.data.data;
   } catch (error) {
     console.log(error);
   }
 };
-
-// export const loginUser = async

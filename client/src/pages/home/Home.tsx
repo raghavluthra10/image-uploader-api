@@ -16,7 +16,7 @@ import { uploadImage } from "../../api/mutations";
 import { Spinner } from "@chakra-ui/react";
 import { getAllImagesOfAUser } from "../../api/queries";
 import { ImageInfo } from "../../interfaces/user";
-export interface IAppProps {}
+// export interface IAppProps {}
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ const PhotosDisplaySection = styled.section`
   grid-gap: 48px;
 `;
 
-export default function App(props: IAppProps) {
+export default function App() {
   const [file, setFile] = React.useState<any>(null);
   const [showUploadButton, setShowUploadButton] =
     React.useState<boolean>(false);
@@ -75,7 +75,6 @@ export default function App(props: IAppProps) {
       setShowUploadButton(false);
       // re-fetch updated data
       fetchAllImagesOfMe.refetch();
-      console.log("success => ", data, variables, context);
     },
   });
 
@@ -180,7 +179,7 @@ export default function App(props: IAppProps) {
                 ))}
               </If>
               <If condition={fetchAllImagesOfMe.data?.length === 0}>
-                <h1>No images</h1>
+                <h1 style={{ alignSelf: "center" }}>No images</h1>
               </If>
             </If>
             <If condition={fetchAllImagesOfMe.isLoading}>

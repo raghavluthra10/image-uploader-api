@@ -36,8 +36,6 @@ export default function App({ src, alt, data }: IAppProps) {
   const viewImage = () => {
     setOpenImage(true);
     window.scrollTo(0, 0);
-    // scroll to top
-    console.log("image", data);
   };
   return (
     <React.Fragment>

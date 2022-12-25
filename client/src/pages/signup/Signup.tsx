@@ -62,7 +62,6 @@ export default function App() {
   const signUpMutation = useMutation({
     mutationFn: signupUser,
     onMutate: (variable) => {
-      console.log("variable ==>", variable);
       return variable;
     },
     onError: (error, variables, context) => {
@@ -83,7 +82,6 @@ export default function App() {
       email: signupForm.email,
       password: signupForm.password,
     });
-    console.log("signup");
   };
   return (
     <SignupContainer>

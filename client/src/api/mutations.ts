@@ -6,7 +6,6 @@ import { LoginForm, User, SignUpForm } from "../interfaces/user";
 
 export const loginUser = async (loginInfo: LoginForm) => {
   const { email, password } = loginInfo;
-  console.log("login user ==>", email, password);
 
   if (!(email && password)) {
     window.alert("please provide all credentials");
@@ -20,8 +19,6 @@ export const loginUser = async (loginInfo: LoginForm) => {
     });
 
     const { message, accessToken } = response.data;
-
-    console.log("response ====>", message, accessToken);
 
     Cookies.set("auth", accessToken);
     window.localStorage.setItem("Authenticate", accessToken);
@@ -51,21 +48,31 @@ export const signupUser = async (signUpInfo: SignUpForm) => {
       },
     );
     return response;
-    // console.log(response);
   } catch (error: any) {
     window.alert(error.message);
   }
 };
 
 export const uploadImage = async (formData: any) => {
-  console.log("upload image mutation", formData.get("image"));
   try {
     const response = await axios.post(`${axiosConfig}/image`, formData, {
       headers: { auth: localStorage.getItem("Authenticate") },
       withCredentials: true,
     });
-    console.log("response =>", response);
     return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteImage = async (src: string) => {
+  try {
+    const response = await axios.delete(`${axiosConfig}/image`, {
+      params: { firebase_public_url: src },
+      headers: { auth: localStorage.getItem("Authenticate") },
+      withCredentials: true,
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
   }
