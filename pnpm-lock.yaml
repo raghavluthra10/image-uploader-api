@@ -6,6 +6,7 @@ specifiers:
   '@types/cookie-parser': ^1.4.3
   '@types/cors': ^2.8.13
   '@types/express': ^4.17.14
+  '@types/express-serve-static-core': ^4.17.31
   '@types/jsonwebtoken': ^8.5.9
   '@types/multer': ^1.4.7
   '@types/node': ^18.11.10
@@ -21,6 +22,7 @@ specifiers:
   eslint: ^8.28.0
   eslint-config-prettier: ^8.5.0
   express: ^4.18.2
+  express-static: ^1.2.6
   firebase: ^9.15.0
   jsonwebtoken: ^8.5.1
   knex: ^2.3.0
@@ -39,12 +41,14 @@ dependencies:
   '@types/cookie-parser': 1.4.3
   '@types/cors': 2.8.13
   '@types/express': 4.17.14
+  '@types/express-serve-static-core': 4.17.31
   bcrypt: 5.1.0
   body-parser: 1.20.1
   cookie-parser: 1.4.6
   cors: 2.8.5
   dotenv: 16.0.3
   express: 4.18.2
+  express-static: 1.2.6
   firebase: 9.15.0
   jsonwebtoken: 8.5.1
   knex: 2.3.0_pg@8.8.0
@@ -1554,6 +1558,13 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /express-static/1.2.6:
+    resolution: {integrity: sha512-pmp8fSe+bCxGCTk5+X6HzIF2APYMvrAq3Y7sT/WOELc0JZZxJhMTVgCbxcoUgMRBSqnQ9EfTw/Uv3J1ONoIAuA==}
+    hasBin: true
+    dependencies:
+      mime2: 0.0.11
+    dev: false
+
   /express/4.18.2:
     resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==}
     engines: {node: '>= 0.10.0'}
@@ -2195,6 +2206,10 @@ packages:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
     hasBin: true
+    dev: false
+
+  /mime2/0.0.11:
+    resolution: {integrity: sha512-Ch599Y8U4vUgG9AaQgLEnIdXRRLoZPfjAdWFDLYePBEJS1nsS43H2pzbZn0u8lkbYx+yInuKxLsUEgM3fa9ZLQ==}
     dev: false
 
   /minimatch/3.1.2:
