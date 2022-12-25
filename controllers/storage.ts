@@ -2,17 +2,12 @@ import express, { Request, Response } from "express";
 import { IGetUserAuthInfoRequest } from "../interfaces/userInfo";
 const router = express.Router();
 import { database } from "../config/database";
-import bcrypt from "bcrypt";
-import { User } from "../interfaces/databaseTables";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import fs, { PathLike, read } from "fs";
+import fs, { PathLike } from "fs";
 import { storage } from "../firebase";
 import {
   ref,
   uploadBytes,
   getDownloadURL,
-  FirebaseStorage,
   deleteObject,
 } from "firebase/storage";
 
@@ -53,7 +48,6 @@ export const addImageToFirebase = async (
     // try {
     const downloadUrl = await getDownloadURL(pathRefernceForImageDownload);
     publicallyAccessibleUrl = downloadUrl;
-    console.log("publically accessible url ===>", publicallyAccessibleUrl);
     // } catch (error) {
     //   console.log(error);
     //   return;
@@ -97,8 +91,6 @@ export const deleteImageFromFirebase = async (
 
     const fileReference = getFileReferenceFromDb[0].file_reference;
 
-    console.log("get file =>", getFileReferenceFromDb, fileReference);
-
     const deleteRef = ref(storage, fileReference);
 
     try {
@@ -121,17 +113,6 @@ export const deleteImageFromFirebase = async (
     return res.status(500).json({ message: "Internal server error!" });
   }
 };
-
-// req.file ===> {
-//   fieldname: 'image',
-//   originalname: 'r.png',
-//   encoding: '7bit',
-//   mimetype: 'image/png',
-//   destination: '/Users/raghav/Applications/practice-projects/express-typescript/uploads',
-//   filename: 'r.png',
-//   path: '/Users/raghav/Applications/practice-projects/express-typescript/uploads/r.png',
-//   size: 6991
-// }
 
 export const getSingleUsersImages = async (
   req: IGetUserAuthInfoRequest,
@@ -162,7 +143,6 @@ export const getAllImages = async (
       success: true,
       data: images,
     });
-    // console.log("user info", req.userEmail, req.userId);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error!" });
