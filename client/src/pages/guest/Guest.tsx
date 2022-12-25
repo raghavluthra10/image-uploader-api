@@ -1,53 +1,68 @@
 import { Button } from "@chakra-ui/react";
 import * as React from "react";
-import { useQuery } from "react-query";
-import { getContent } from "../../api/queries";
+import { BsFillCloudRainHeavyFill } from "react-icons/bs";
+import styled from "styled-components";
 
-import { User } from "../../interfaces/user";
+// export interface IAppProps {}
 
-import If from "../../components/If";
-import axios from "axios";
-import axiosConfig from "../../axios.config";
+const Container = styled.div`
+  /* padding: 40px 80px; */
+  display: flex;
+  flex-direction: column;
+`;
 
-export interface IAppProps {}
+const SectionOne = styled.div`
+  margin-top: 150px;
+  padding: 40px 140px;
+  display: flex;
+  margin-bottom: 100px;
+`;
 
-export default function App(props: IAppProps) {
-  const { isError, isLoading, data, isSuccess, refetch } = useQuery(
-    "users",
-    getContent,
-    {
-      enabled: false,
-    },
-  );
+const LeftSection = styled.h1`
+  font-size: 32px;
+  flex: 0.5;
+  font-weight: 500;
+  color: var(--secondary);
+`;
 
-  console.log("hahaha", isLoading, isSuccess, isError, data);
-  const getData = () => {
-    refetch();
-  };
-  const checkAuth = async () => {
-    const data = await axios.get(`${axiosConfig}/image`, {
-      headers: { auth: localStorage.getItem("Authenticate") },
-    });
+const Cloud = styled.div`
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
 
-    try {
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const CTA = styled.h1`
+  font-size: 40px;
+  font-weight: 500;
+  color: var(--secondary);
+  margin-top: 64px;
+  /* background-color: var(--tertiary); */
+`;
+
+const Welcome = styled.h1`
+  font-size: 32px;
+  flex: 0.5;
+  font-weight: 500;
+  color: var(--secondary);
+`;
+
+export default function App() {
   return (
-    <div>
-      <Button onClick={getData}>Get content</Button>
-      <If condition={isSuccess}>
-        <React.Fragment>
-          {data?.map((d: User) => (
-            <div key={d.id}>
-              <h1>{d.name}</h1>
-            </div>
-          ))}
-        </React.Fragment>
-      </If>
-      <Button onClick={checkAuth}>Check auth with token</Button>
-    </div>
+    <Container>
+      <SectionOne>
+        <LeftSection>
+          <Welcome>
+            Welcome to your only solution for storing images on cloud.
+          </Welcome>
+
+          <CTA>Login to get started.</CTA>
+        </LeftSection>
+
+        <Cloud>
+          <BsFillCloudRainHeavyFill size="300px" color="var(--secondary)" />
+        </Cloud>
+      </SectionOne>
+    </Container>
   );
 }
