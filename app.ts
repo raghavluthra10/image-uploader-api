@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 // import cors from "cors";
 import cookieParser from "cookie-parser";
 import { router } from "./routes/index";
 import { database } from "./config/database";
-import { User } from "./interfaces/databaseTables";
 import addHeaders from "./middleware/cors";
 import path from "path";
 
@@ -29,6 +28,7 @@ const checkDbConnection = async () => {
 checkDbConnection();
 
 app.use(express.static(path.join(__dirname + "/client/dist")));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -38,8 +38,10 @@ app.use(cookieParser());
 
 app.use(addHeaders);
 
-app.use("/", router);
-
+app.use("/api", router);
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/dist/index.html"));
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port} `);
 });
