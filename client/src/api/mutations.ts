@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import axios, { AxiosResponse } from "axios";
 import axiosConfig from "../axios.config";
 import Cookies from "js-cookie";
-import { LoginForm, User, SignUpForm } from "../interfaces/user";
+import { LoginForm, User, SignUpForm } from "../interfaces";
 
 export const loginUser = async (loginInfo: LoginForm) => {
   const { email, password } = loginInfo;

@@ -5,7 +5,7 @@ import Signup from "./pages/signup/Signup";
 import Home from "./pages/home/Home";
 import About from "./pages/about/About";
 import Guest from "./pages/guest/Guest";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import NotFound from "./pages/notFound/NotFound";
 

@@ -6,7 +6,7 @@ import { Button as ChakraButton, Flex } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
 import DisplayImage from "./DisplayImage";
 // import { Link, useNavigate } from "react-router-dom";
-import { ImageInfo } from "../interfaces/user";
+import { ImageInfo } from "../interfaces";
 
 export interface IAppProps {
   src: string;

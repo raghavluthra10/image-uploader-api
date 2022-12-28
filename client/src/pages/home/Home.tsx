@@ -15,7 +15,7 @@ import { Image } from "@chakra-ui/react";
 import { uploadImage } from "../../api/mutations";
 import { Spinner } from "@chakra-ui/react";
 import { getAllImagesOfAUser } from "../../api/queries";
-import { ImageInfo } from "../../interfaces/user";
+import { ImageInfo } from "../../interfaces";
 // export interface IAppProps {}
 
 const Container = styled.div`

@@ -16,7 +16,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 import { useMutation } from "react-query";
 
-import { LoginForm } from "../../interfaces/user";
+import { LoginForm } from "../../interfaces";
 import { loginUser } from "../../api/mutations";
 
 import { useNavigate } from "react-router-dom";
