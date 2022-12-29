@@ -17,6 +17,7 @@
   },
   "keywords": [],
   "author": "",
+  "type": "commonjs",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
