@@ -13,7 +13,9 @@
     "migrate:specific": "knex migrate:up",
     "migrate:down": "knex migrate:down",
     "seed": "knex seed:run",
-    "both": "pnpm run dev && cd client && pnpm run dev"
+    "both": "pnpm run dev && cd client && pnpm run dev",
+    "both:install": "pnpm install && cd client && pnpm install",
+    "client:build": "cd client && pnpm run build"
   },
   "keywords": [],
   "author": "",
