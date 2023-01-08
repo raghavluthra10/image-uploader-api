@@ -84,11 +84,9 @@ export default function App({ setUserAuth }: IAppProps) {
         return;
       }
 
-      if (data) {
-        navigate("/home");
-        // set userAuth as true
-        setUserAuth(true);
-      }
+      navigate("/home");
+      // set userAuth as true
+      setUserAuth(true);
     },
   });
 

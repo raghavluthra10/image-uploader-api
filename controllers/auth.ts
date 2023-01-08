@@ -14,7 +14,10 @@ export const login = async (req: Request, res: Response) => {
     console.log("login body =>", email, password);
 
     if (!(email && password)) {
-      return res.status(400).send("Please provide all credentials!");
+      return res.json({
+        success: false,
+        message: "Please provide all credentials",
+      });
     }
 
     const findUser = await database("user").where({ email });
@@ -57,13 +60,16 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
     if (!(name && email && password)) {
-      return res.status(400).send("Please provide all credentials!");
+      return res.json({
+        success: false,
+        message: "Please provide all credentials",
+      });
     }
 
     const checkIfUserAlreadyExists = await database("user").where({ email });
 
     if (checkIfUserAlreadyExists.length > 0) {
-      return res.status(400).send("User already exists!");
+      return res.json({ success: false, message: "User already exists!" });
     }
 
     const saltRounds = 10;
@@ -79,7 +85,9 @@ export const signup = async (req: Request, res: Response) => {
       });
     });
 
-    return res.status(200).send("User Signed Up Successfully!!!");
+    return res
+      .status(200)
+      .json({ message: "User Signed Up Successfully!!!", success: true });
   } catch (error) {
     console.error(error);
     return res.status(500).send("Internal Server Error!");

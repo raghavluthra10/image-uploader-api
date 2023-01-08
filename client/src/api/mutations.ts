@@ -26,11 +26,6 @@ export const loginUser = async (loginInfo: LoginForm) => {
 
 export const signupUser = async (signUpInfo: SignUpForm) => {
   const { name, email, password } = signUpInfo;
-  if (!(email && password && name)) {
-    window.alert("please enter all the credentials");
-    // replace with toaster later
-    return;
-  }
 
   try {
     const response = await axios.post(
@@ -40,7 +35,7 @@ export const signupUser = async (signUpInfo: SignUpForm) => {
         withCredentials: true,
       },
     );
-    return response;
+    return response.data;
   } catch (error: any) {
     window.alert(error.message);
   }

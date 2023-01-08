@@ -5,12 +5,14 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import * as React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import If from "../../components/If";
+import Toast from "../../components/Toast";
 
 import { useNavigate } from "react-router-dom";
 
@@ -57,6 +59,8 @@ export default function App() {
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
+  const toast = useToast();
+
   const navigate = useNavigate();
 
   const signUpMutation = useMutation({
@@ -68,15 +72,40 @@ export default function App() {
       console.log(`error =>`, error, variables, context);
     },
     onSuccess: (data, variables, context) => {
-      if (data) {
-        navigate("/login");
+      console.log("user signed up ===>", data);
+      if (data.success === false) {
+        toast({
+          duration: 3000,
+          render: () => (
+            <Toast
+              toastColor="red.500"
+              title="User already exists"
+              description="Please signup with another email"
+            />
+          ),
+        });
+        return;
       }
+      navigate("/login");
       console.log("success => ", data, variables, context);
     },
   });
 
   const signup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!(signupForm.email && signupForm.password && signupForm.name)) {
+      return toast({
+        duration: 3000,
+        render: () => (
+          <Toast
+            toastColor="red.500"
+            description="Please provide all signup credentials"
+          />
+        ),
+      });
+    }
+
     signUpMutation.mutate({
       name: signupForm.name,
       email: signupForm.email,
