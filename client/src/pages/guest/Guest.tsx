@@ -20,7 +20,7 @@ const SectionOne = styled.div`
   margin-bottom: 100px;
 `;
 
-const LeftSection = styled.h1`
+const LeftSection = styled.div`
   font-size: 32px;
   flex: 0.5;
   font-weight: 500;

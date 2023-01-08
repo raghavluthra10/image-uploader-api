@@ -19,8 +19,10 @@ export const login = async (req: Request, res: Response) => {
 
     const findUser = await database("user").where({ email });
 
+    console.log("usersss ===>", findUser);
+
     if (findUser.length == 0) {
-      return res.status(404).send("User does not exists!");
+      return res.json({ message: "User does not exists!", success: false });
     }
 
     const hashedPassword = findUser[0].password;
@@ -40,9 +42,11 @@ export const login = async (req: Request, res: Response) => {
 
     console.log("token =>", token);
     // { httpOnly: true, secure: true }
-    return res
-      .status(200)
-      .json({ message: "User logged in successfully!", accessToken: token });
+    return res.status(200).json({
+      message: "User logged in successfully!",
+      accessToken: token,
+      success: true,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send("Internal server error!");

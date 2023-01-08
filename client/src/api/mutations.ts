@@ -7,25 +7,20 @@ import { LoginForm, User, SignUpForm } from "../interfaces";
 export const loginUser = async (loginInfo: LoginForm) => {
   const { email, password } = loginInfo;
 
-  if (!(email && password)) {
-    window.alert("please provide all credentials");
-    // replace with toast later
-    return;
-  }
-
   try {
     const response = await axios.post(axiosConfig + "/login", loginInfo, {
       withCredentials: true,
     });
 
-    const { message, accessToken } = response.data;
+    const { accessToken } = response.data;
+    console.log("response after log in =>", response);
 
     Cookies.set("auth", accessToken);
     window.localStorage.setItem("Authenticate", accessToken);
-    return response;
+    return response.data;
   } catch (error: any) {
     const message: string = error.message;
-    // add toaster
+
     window.alert(message);
     console.log(error);
   }
