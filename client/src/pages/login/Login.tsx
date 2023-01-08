@@ -5,12 +5,14 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import * as React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import If from "../../components/If";
+import Toast from "../../components/Toast";
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -55,6 +57,8 @@ export default function App({ setUserAuth }: IAppProps) {
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
+  const toast = useToast();
+
   const navigate = useNavigate();
 
   const loginUserMutation = useMutation({
@@ -66,6 +70,20 @@ export default function App({ setUserAuth }: IAppProps) {
       console.log(`error =>`, error, variables, context);
     },
     onSuccess: (data, variables, context) => {
+      if (data.success === false) {
+        toast({
+          duration: 3000,
+          render: () => (
+            <Toast
+              toastColor="red.500"
+              title="Not found"
+              description="Please Sign up or use an existing account!"
+            />
+          ),
+        });
+        return;
+      }
+
       if (data) {
         navigate("/home");
         // set userAuth as true
@@ -76,6 +94,17 @@ export default function App({ setUserAuth }: IAppProps) {
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!(loginForm.email && loginForm.password)) {
+      return toast({
+        duration: 3000,
+        render: () => (
+          <Toast
+            toastColor="red.500"
+            description="Please provide all login credentials"
+          />
+        ),
+      });
+    }
     loginUserMutation.mutate({
       email: loginForm.email,
       password: loginForm.password,

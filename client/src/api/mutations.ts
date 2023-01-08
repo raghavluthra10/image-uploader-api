@@ -5,8 +5,6 @@ import Cookies from "js-cookie";
 import { LoginForm, User, SignUpForm } from "../interfaces";
 
 export const loginUser = async (loginInfo: LoginForm) => {
-  const { email, password } = loginInfo;
-
   try {
     const response = await axios.post(axiosConfig + "/login", loginInfo, {
       withCredentials: true,
