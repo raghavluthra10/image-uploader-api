@@ -28,7 +28,7 @@ const LoginContainer = styled.div`
   background-color: var(--primary);
   display: grid;
   place-content: center;
-  margin-top: 144px;
+  min-height: 100vh;
 `;
 
 const InputForm = styled.div`

@@ -43,6 +43,9 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      {/* set body color to primary */}
+      <style>{"body {background-color:var(--primary);}"}</style>
     </Fragment>
   );
 }

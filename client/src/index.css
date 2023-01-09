@@ -6,8 +6,4 @@
   --text-primary: rgb(0, 0, 0);
 }
 
-* {
-  background-color: var(--primary);
-}
-
 /* set the font family */

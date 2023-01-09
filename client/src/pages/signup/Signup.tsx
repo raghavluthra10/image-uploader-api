@@ -26,8 +26,8 @@ import { signupUser } from "../../api/mutations";
 const SignupContainer = styled.div`
   background-color: var(--primary);
   display: grid;
+  min-height: 100vh;
   place-content: center;
-  margin-top: 102px;
 `;
 
 const InputForm = styled.div`
