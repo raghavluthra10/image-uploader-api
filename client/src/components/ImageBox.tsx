@@ -1,25 +1,31 @@
 import * as React from "react";
-import { Image } from "@chakra-ui/react";
+import { Image, useDisclosure } from "@chakra-ui/react";
 import styled from "styled-components";
 import If from "../components/If";
-import { Button as ChakraButton, Flex } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/react";
-import DisplayImage from "./DisplayImage";
+import { useMutation, useQuery } from "react-query";
+import {
+  Button as ChakraButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalFooter,
+  ModalBody,
+} from "@chakra-ui/react";
 // import { Link, useNavigate } from "react-router-dom";
 import { ImageInfo } from "../interfaces";
+import { getAllImagesOfAUser } from "../api/queries";
+import { deleteImage } from "../api/mutations";
 
 export interface IAppProps {
   src: string;
   alt: string;
-  data: ImageInfo;
-  // close: () =>
 }
 
 const Container = styled.div`
   display: flex;
   cursor: pointer;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
   border-radius: 16px;
   overflow: hidden;
 
@@ -30,21 +36,79 @@ const Container = styled.div`
   }
 `;
 
-export default function App({ src, alt, data }: IAppProps) {
-  const [openImage, setOpenImage] = React.useState<boolean>(false);
+export default function App({ src, alt }: IAppProps) {
+  // const [openImage, setOpenImage] = React.useState<boolean>(false);
   // const navigate = useNavigate();
-  const viewImage = () => {
-    setOpenImage(true);
-    window.scrollTo(0, 0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+
+  const fetchAllImagesOfMe = useQuery({
+    queryKey: ["getMyImages"],
+    queryFn: getAllImagesOfAUser,
+    refetchOnWindowFocus: false,
+  });
+
+  const deleteImageMutation = useMutation({
+    mutationFn: deleteImage,
+    onMutate: (variable) => {
+      return variable;
+    },
+    onError: (error, variables, context) => {
+      console.log("error =>", error, variables, context);
+    },
+    onSuccess: async (data, variables, context) => {
+      // refetch and display content
+      fetchAllImagesOfMe.refetch();
+
+      // close the opened image
+      if (closeButtonRef.current != null) {
+        closeButtonRef.current.click();
+      }
+      console.log("success => ", data, variables, context);
+    },
+  });
+
+  const deleteImageOnClick = async () => {
+    deleteImageMutation.mutate(src as string);
+    console.log("delete button");
   };
+
   return (
     <React.Fragment>
-      <Container onClick={viewImage}>
-        <Image src={src} alt={alt} objectFit="contain" />
+      <Container onClick={onOpen}>
+        <Image src={src} alt={alt} objectFit="cover" />
       </Container>
-      <If condition={openImage}>
-        <DisplayImage src={src} alt={alt} setOpenImage={setOpenImage} />
-      </If>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent bg="var(--primary)">
+          <ModalBody p="44px">
+            <Image src={src} alt={alt} objectFit="cover" />
+          </ModalBody>
+
+          <ModalFooter>
+            <ChakraButton
+              bg="var(--secondary)"
+              color="white"
+              border="1px solid var(--secondary)"
+              _hover={{
+                border: "1px solid black",
+                color: "black",
+                backgroundColor: "white",
+              }}
+              mr={3}
+              onClick={onClose}
+              ref={closeButtonRef}
+            >
+              Close
+            </ChakraButton>
+            <ChakraButton variant="ghost" onClick={deleteImageOnClick}>
+              Delete
+            </ChakraButton>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </React.Fragment>
   );
 }
