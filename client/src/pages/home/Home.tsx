@@ -4,16 +4,15 @@ import styled from "styled-components";
 import If from "../../components/If";
 import {
   Button as ChakraButton,
-  ButtonGroup,
+  Spinner,
   Flex,
   IconButton,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import ImageBox from "../../components/ImageBox";
 import { ImCancelCircle } from "react-icons/im";
 import { IoMdCloudUpload } from "react-icons/io";
-import { Image } from "@chakra-ui/react";
 import { uploadImage } from "../../api/mutations";
-import { Spinner } from "@chakra-ui/react";
 import { getAllImagesOfAUser } from "../../api/queries";
 import { ImageInfo } from "../../interfaces";
 // export interface IAppProps {}
@@ -22,8 +21,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px 40px;
-  /* min-width: 50%; */
   align-items: center;
+  @media (max-width: 750px) {
+    padding: 12px 20px;
+  }
 `;
 
 const UserInfo = styled.div`
@@ -35,8 +36,12 @@ const UserInfo = styled.div`
   border-radius: 8px;
   padding: 16px;
   width: 80%;
-  /* align-items: center; */
   box-shadow: 2px 2px 4px #333;
+  min-width: 300px;
+  @media (max-width: 560px) {
+    padding: 4px;
+    height: 128px;
+  }
 `;
 
 const PhotosDisplaySection = styled.section`
@@ -46,9 +51,17 @@ const PhotosDisplaySection = styled.section`
   place-items: center;
   grid-template-columns: repeat(3, 1fr);
   max-width: 80%;
-  /* min-width: 40%; */
   align-items: center;
   grid-gap: 48px;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 650px) {
+    padding: 16px;
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 export default function App() {
@@ -108,6 +121,9 @@ export default function App() {
     setShowUploadButton(false);
   };
 
+  const [rearrangeButtonsForUploadingFile] =
+    useMediaQuery("(max-width: 560px)");
+
   return (
     <React.Fragment>
       <If condition={uploadImageMutation.isLoading}>
@@ -136,13 +152,23 @@ export default function App() {
                 encType="multipart/form-data"
               >
                 <If condition={showUploadButton}>
-                  <ButtonGroup spacing={6}>
-                    <ChakraButton type="submit">Upload</ChakraButton>
+                  {rearrangeButtonsForUploadingFile ? (
+                    <Flex flexDirection="column" gap={2}>
+                      <ChakraButton type="submit">Upload</ChakraButton>
 
-                    <IconButton aria-label="" onClick={cancelFormSubmission}>
-                      <ImCancelCircle />
-                    </IconButton>
-                  </ButtonGroup>
+                      <IconButton aria-label="" onClick={cancelFormSubmission}>
+                        <ImCancelCircle />
+                      </IconButton>
+                    </Flex>
+                  ) : (
+                    <Flex gap={2}>
+                      <ChakraButton type="submit">Upload</ChakraButton>
+
+                      <IconButton aria-label="" onClick={cancelFormSubmission}>
+                        <ImCancelCircle />
+                      </IconButton>
+                    </Flex>
+                  )}
                 </If>
                 <input
                   ref={hiddenButtonRef}

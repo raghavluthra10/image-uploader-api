@@ -15,6 +15,11 @@ const Navbar = styled.nav`
   /* height: 56px; */
   justify-content: space-between;
   padding: 12px 40px;
+  min-width: 350px;
+
+  @media (max-width: 375px) {
+    padding: 8px 28px;
+  }
 `;
 
 const Pages = styled.div`
