@@ -49,6 +49,7 @@ export const login = async (req: Request, res: Response) => {
       message: "User logged in successfully!",
       accessToken: token,
       success: true,
+      userName: findUser[0].name,
     });
   } catch (error) {
     console.error(error);

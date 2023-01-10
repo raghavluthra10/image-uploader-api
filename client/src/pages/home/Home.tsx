@@ -52,6 +52,8 @@ const PhotosDisplaySection = styled.section`
 `;
 
 export default function App() {
+  const userName = window.localStorage.getItem("userName");
+
   const [file, setFile] = React.useState<any>(null);
   const [showUploadButton, setShowUploadButton] =
     React.useState<boolean>(false);
@@ -124,8 +126,8 @@ export default function App() {
         <Container>
           <UserInfo>
             <Flex p="16px" flexDirection="column">
-              <div>Name: raghav</div>
-              <div>Photos: 3</div>
+              <div>Name: {userName}</div>
+              <div>Photos: {fetchAllImagesOfMe?.data?.length}</div>
             </Flex>
             <Flex p="16px">
               <form
@@ -154,6 +156,8 @@ export default function App() {
                   <IconButton aria-label={""} onClick={implementUseRef}>
                     <IoMdCloudUpload
                       style={{
+                        backgroundColor: "var(--primary)",
+                        color: "var(--secondary)",
                         height: "100%",
                         width: "100%",
                         alignSelf: "center",
@@ -174,7 +178,6 @@ export default function App() {
                     key={image.id}
                     src={image.firebase_public_url}
                     alt="image"
-                    data={image}
                   />
                 ))}
               </If>
