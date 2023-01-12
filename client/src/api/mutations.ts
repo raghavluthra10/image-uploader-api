@@ -10,11 +10,12 @@ export const loginUser = async (loginInfo: LoginForm) => {
       withCredentials: true,
     });
 
-    const { accessToken } = response.data;
+    const { accessToken, userName } = response.data;
     console.log("response after log in =>", response);
 
     Cookies.set("auth", accessToken);
     window.localStorage.setItem("Authenticate", accessToken);
+    window.localStorage.setItem("userName", userName);
     return response.data;
   } catch (error: any) {
     const message: string = error.message;
