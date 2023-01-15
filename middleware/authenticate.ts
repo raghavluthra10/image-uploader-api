@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import { IGetUserAuthInfoRequest } from "../interfaces/userInfo";
+import { IGetUserAuthInfoRequest } from "../interfaces/index";
 import { database } from "../config/database";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";

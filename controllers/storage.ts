@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { IGetUserAuthInfoRequest } from "../interfaces/userInfo";
+import { IGetUserAuthInfoRequest } from "../interfaces/index";
 const router = express.Router();
 import { database } from "../config/database";
 import fs, { PathLike } from "fs";
