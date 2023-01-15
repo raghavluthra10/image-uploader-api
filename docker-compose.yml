@@ -1,0 +1,28 @@
+version: "3.9" # optional since v1.27.0
+services:
+  web:
+    container_name: image-uploader-app
+    build: .
+    ports:
+      - "8000:8000"
+    links:
+      - database
+    env_file:
+      - ./.env
+    depends_on:
+      - database
+
+  database:
+    container_name: image-uploader-database
+    image: postgres
+    ports:
+      - "4321:5432"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - image_uploader:/var/lib/postgresql/data
+
+volumes:
+  image_uploader:
+    external: true

@@ -13,19 +13,19 @@ dotenv.config({ path: "./env" });
 const app = express();
 const port = 8000;
 
-const checkDbConnection = async () => {
-  try {
-    const response = await database("user");
-    if (response.length >= 0) {
-      console.log("database =>", "connected Successfully!");
-    }
-  } catch (error) {
-    console.log("Some error occured in database connection");
-    console.log(error);
-  }
-};
+// const checkDbConnection = async () => {
+//   try {
+//     const response = await database("user");
+//     if (response.length >= 0) {
+//       console.log("database =>", "connected Successfully!");
+//     }
+//   } catch (error) {
+//     console.log("Some error occured in database connection");
+//     console.log(error);
+//   }
+// };
 
-checkDbConnection();
+// checkDbConnection();
 
 app.use(express.static(path.join(__dirname + "/client/dist")));
 
