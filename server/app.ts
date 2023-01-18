@@ -8,7 +8,7 @@ import { database } from "./config/database";
 import addHeaders from "./middleware/cors";
 import path from "path";
 
-dotenv.config({ path: "./env" });
+dotenv.config({ path: "../.env" });
 
 const app = express();
 const port = 8000;
@@ -27,7 +27,7 @@ const port = 8000;
 
 // checkDbConnection();
 
-app.use(express.static(path.join(__dirname + "/client/dist")));
+app.use(express.static(path.join(__dirname + "../../client/dist")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -40,7 +40,7 @@ app.use(addHeaders);
 
 app.use("/api", router);
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/dist/index.html"));
+  res.sendFile(path.join(__dirname + "../../client/dist/index.html"));
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port} `);
