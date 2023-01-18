@@ -11,7 +11,7 @@ import path from "path";
 dotenv.config({ path: "../.env" });
 
 const app = express();
-const port = 8000;
+const port = process.env.port || 8000;
 
 // const checkDbConnection = async () => {
 //   try {
