@@ -15,7 +15,8 @@
     "seed": "knex seed:run",
     "both": "pnpm run dev && cd client && pnpm run dev",
     "both:install": "pnpm install && cd client && pnpm install",
-    "client:build": "cd client && pnpm run build"
+    "client:build": "cd client && pnpm run build",
+    "start:prod": "node dist/app.js"
   },
   "keywords": [],
   "author": "",
@@ -57,6 +58,7 @@
     "knex": "^2.3.0",
     "multer": "1.4.5-lts.1",
     "pg": "^8.8.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vite": "^4.0.4"
   }
 }
