@@ -3,7 +3,7 @@
  *
  */
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 interface Connection {
   client: string;
