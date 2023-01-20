@@ -26,7 +26,7 @@ const development: Connection = {
     database: process.env.database,
     user: process.env.user,
     password: process.env.password,
-    port: process.env.port,
+    port: process.env.portDb,
     host: process.env.host,
   },
 };
@@ -37,7 +37,7 @@ const production: Connection = {
     database: process.env.database,
     user: process.env.user,
     password: process.env.password,
-    port: process.env.port,
+    port: process.env.portDb,
     host: process.env.host,
   },
   pool: {
