@@ -15,6 +15,6 @@ RUN pnpm run both:install
 RUN pnpm run client:build
 RUN pnpm run compile
 
-CMD ["pnpm", "start:compile"]
+CMD ["pnpm", "start:prod"]
 
 EXPOSE 8000

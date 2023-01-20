@@ -11,7 +11,6 @@ export const login = async (req: Request, res: Response) => {
   try {
     const body = req.body;
     const { email, password } = body;
-    console.log("login body =>", email, password);
 
     if (!(email && password)) {
       return res.json({
@@ -21,8 +20,6 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const findUser = await database("user").where({ email });
-
-    console.log("usersss ===>", findUser);
 
     if (findUser.length == 0) {
       return res.json({ message: "User does not exists!", success: false });
@@ -77,7 +74,6 @@ export const signup = async (req: Request, res: Response) => {
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
         // Store hash in your password DB.
-        console.log("hash ===>", password, hash);
         await database("user").insert<User>({
           password: hash,
           name: name,

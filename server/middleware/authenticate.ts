@@ -30,7 +30,6 @@ export const authenticateUser = async (
     const extractToken = authToken.split('"');
 
     const jwtToken = extractToken[1];
-    console.log("jwt token =>", jwtToken);
 
     const decode = jwt.verify(
       jwtToken,
