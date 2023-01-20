@@ -23,22 +23,22 @@ interface Connection {
 const development: Connection = {
   client: "pg",
   connection: {
-    database: process.env.database,
-    user: process.env.user,
-    password: process.env.password,
-    port: process.env.portDb,
-    host: process.env.host,
+    database: process.env.PGDATABASE,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
+    host: process.env.PGHOST,
   },
 };
 
 const production: Connection = {
   client: "pg",
   connection: {
-    database: process.env.database,
-    user: process.env.user,
-    password: process.env.password,
-    port: process.env.portDb,
-    host: process.env.host,
+    database: process.env.PGDATABASE,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
+    host: process.env.PGHOST,
   },
   pool: {
     min: 2,
