@@ -11,7 +11,7 @@ import path from "path";
 dotenv.config({ path: "../.env" });
 
 const app = express();
-const port = process.env.portServer || 8000;
+const PORT = process.env.port || 8000;
 
 // const checkDbConnection = async () => {
 //   try {
@@ -42,6 +42,6 @@ app.use("/api", router);
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname + "../../client/dist/index.html"));
 });
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port} `);
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT} `);
 });
