@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 8000;
 
 // checkDbConnection();
 
-app.use(cors());
+// app.use(cors());
 
 app.use(express.static(path.join(__dirname + "../../client/dist")));
 

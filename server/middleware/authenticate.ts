@@ -35,7 +35,7 @@ export const authenticateUser = async (
       jwtToken,
       process.env.jwtSecret as string,
     ) as JwtInterface;
-    console.log("decoded", decode);
+
     const { userId, email } = decode;
 
     if (!decode) {

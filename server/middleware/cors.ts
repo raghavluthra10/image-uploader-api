@@ -4,7 +4,16 @@ export default function addHeaders(
   res: Response,
   next: NextFunction,
 ) {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "https://image-uploader-api-production.up.railway.app",
+  ];
+
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin as string)) {
+    res.setHeader("Access-Control-Allow-Origin", origin as string);
+  }
 
   res.setHeader(
     "Access-Control-Allow-Methods",
