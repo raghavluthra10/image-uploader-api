@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-// import cors from "cors";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import { router } from "./routes/index";
 import { database } from "./config/database";
@@ -27,14 +27,13 @@ const PORT = process.env.PORT || 8000;
 
 // checkDbConnection();
 
+app.use(cors());
+
 app.use(express.static(path.join(__dirname + "../../client/dist")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-
-// app.use(cors());
-// const corsO
 
 app.use(addHeaders);
 
