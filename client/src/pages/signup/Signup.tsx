@@ -20,6 +20,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 import { useMutation } from "react-query";
 import { signupUser } from "../../api/mutations";
+import useLoggedIn from "../../hooks/use-loggedIn";
 
 // export interface IAppProps {}
 
@@ -51,6 +52,7 @@ interface SignupForm {
 }
 
 export default function App() {
+  useLoggedIn();
   const [signupForm, setSignupForm] = React.useState<SignupForm>({
     email: "",
     password: "",

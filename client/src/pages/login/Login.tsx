@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 import If from "../../components/If";
 import Toast from "../../components/Toast";
-
+import useLoggedIn from "../../hooks/use-loggedIn";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 import { useMutation } from "react-query";
@@ -50,16 +50,17 @@ interface IAppProps {
 }
 
 export default function App({ setUserAuth }: IAppProps) {
-  const navigator = useNavigate();
-  React.useEffect(() => {
-    const token = window.localStorage.getItem("Authenticate");
+  useLoggedIn();
+  // const navigator = useNavigate();
+  // React.useEffect(() => {
+  //   const token = window.localStorage.getItem("Authenticate");
 
-    // if user already logged it then redirect to home
-    if (token) {
-      navigator("/home");
-      return;
-    }
-  }, []);
+  //   // if user already logged it then redirect to home
+  //   if (token) {
+  //     navigator("/home");
+  //     return;
+  //   }
+  // }, []);
 
   const [loginForm, setLoginForm] = React.useState<LoginForm>({
     email: "",

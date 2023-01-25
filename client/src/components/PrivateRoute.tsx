@@ -12,8 +12,6 @@ export default function App(): any {
     const token = window.localStorage.getItem("Authenticate");
 
     if (!token) {
-      console.log("toksn", token);
-      console.log("token is falsy =>", typeof token);
       navigator("/login");
       return;
     }
