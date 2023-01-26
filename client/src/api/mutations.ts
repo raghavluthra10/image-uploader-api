@@ -1,3 +1,4 @@
+import React from "react";
 import { useQuery } from "react-query";
 import axios, { AxiosResponse } from "axios";
 import axiosConfig from "../axios.config";
@@ -11,7 +12,6 @@ export const loginUser = async (loginInfo: LoginForm) => {
     });
 
     const { accessToken, userName } = response.data;
-    console.log("response after log in =>", response);
 
     Cookies.set("auth", accessToken);
     window.localStorage.setItem("Authenticate", accessToken);
@@ -20,7 +20,8 @@ export const loginUser = async (loginInfo: LoginForm) => {
   } catch (error: any) {
     const message: string = error.message;
 
-    window.alert(message);
+    // window.alert(message);
+    console.log(message);
     console.log(error);
   }
 };

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BsFillCloudRainHeavyFill } from "react-icons/bs";
 import styled from "styled-components";
+import useLoggedIn from "../../hooks/use-loggedIn";
 
 // export interface IAppProps {}
 
@@ -58,23 +59,7 @@ const Welcome = styled.h1`
 `;
 
 export default function App() {
-  const [userAuth, setUserAuth] = React.useState<boolean | null>(null);
-
-  const checkIfUserIsAuthenticated = () => {
-    const regexJwt = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
-
-    // const cookie = Cookies.get("auth");
-    const cookie = window.localStorage.getItem("Authenticate");
-    if (cookie && regexJwt.test(cookie)) {
-      setUserAuth(true);
-    } else {
-      setUserAuth(false);
-    }
-  };
-
-  React.useEffect(() => {
-    checkIfUserIsAuthenticated();
-  }, []);
+  useLoggedIn();
 
   return (
     <Container>

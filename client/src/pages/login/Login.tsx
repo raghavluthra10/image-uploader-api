@@ -51,16 +51,6 @@ interface IAppProps {
 
 export default function App({ setUserAuth }: IAppProps) {
   useLoggedIn();
-  // const navigator = useNavigate();
-  // React.useEffect(() => {
-  //   const token = window.localStorage.getItem("Authenticate");
-
-  //   // if user already logged it then redirect to home
-  //   if (token) {
-  //     navigator("/home");
-  //     return;
-  //   }
-  // }, []);
 
   const [loginForm, setLoginForm] = React.useState<LoginForm>({
     email: "",

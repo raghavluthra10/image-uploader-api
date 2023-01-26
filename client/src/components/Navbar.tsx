@@ -50,9 +50,11 @@ export default function App({ setUserAuth, isLoggedIn }: IAppProps) {
     <React.Fragment>
       <Navbar>
         <Pages>
-          <Link style={{ marginRight: "16px" }} to="/">
-            Guest
-          </Link>
+          <If condition={!isLoggedIn}>
+            <Link style={{ marginRight: "16px" }} to="/">
+              Guest
+            </Link>
+          </If>
           <If condition={isLoggedIn}>
             <Link style={{ marginRight: "16px" }} to="/home">
               Home
