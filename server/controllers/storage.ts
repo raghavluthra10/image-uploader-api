@@ -22,11 +22,14 @@ export const addImageToFirebase = async (
 ) => {
   try {
     const imageFile = req.file;
-
     const imagePath = req.file?.path;
-    const filename = req.file?.originalname;
 
-    const imageRef = ref(storage, `${req.file?.originalname}`);
+    const userId = req.userId;
+    const currentTime = new Date().getTime();
+
+    const filename = `${req.file?.originalname}-${userId}-${currentTime}`;
+
+    const imageRef = ref(storage, filename);
     const bufferImage = encodeImageFileAsURL(imagePath);
 
     const metadata = {
@@ -36,24 +39,12 @@ export const addImageToFirebase = async (
     // publically accessible url
     let publicallyAccessibleUrl = "";
 
-    // try {
     await uploadBytes(imageRef, bufferImage, metadata);
-    // } catch (error) {
-    //   console.log(error);
-    //   return;
-    // }
 
     const pathRefernceForImageDownload = ref(storage, filename);
 
-    // try {
     const downloadUrl = await getDownloadURL(pathRefernceForImageDownload);
     publicallyAccessibleUrl = downloadUrl;
-    // } catch (error) {
-    //   console.log(error);
-    //   return;
-    // }
-
-    const userId = req.userId;
 
     await database("image_resources").insert({
       firebase_public_url: publicallyAccessibleUrl,
@@ -93,12 +84,7 @@ export const deleteImageFromFirebase = async (
 
     const deleteRef = ref(storage, fileReference);
 
-    try {
-      const response = await deleteObject(deleteRef);
-      console.log(response);
-    } catch (error) {
-      return console.log(error);
-    }
+    await deleteObject(deleteRef);
 
     // delete record from db
     await database("image_resources")
