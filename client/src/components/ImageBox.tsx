@@ -65,7 +65,6 @@ export default function App({ src, alt }: IAppProps) {
       if (closeButtonRef.current != null) {
         closeButtonRef.current.click();
       }
-      console.log("success => ", data, variables, context);
     },
   });
 
